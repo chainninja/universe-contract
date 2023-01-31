@@ -12,6 +12,9 @@ const config: HardhatUserConfig = {
       url: `https://eth-goerli.alchemyapi.io/v2/${env.alchemyApiKey}`,
       accounts: [env.goerliPrivateKey],
     },
+    localhost: {
+      accounts: [env.privateKey]
+    }
   },
 }
 export default config;
