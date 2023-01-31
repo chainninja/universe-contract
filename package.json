@@ -35,6 +35,8 @@
     "ts-node": "^10.9.1"
   },
   "dependencies": {
+    "@ethereumjs/common": "^3.0.2",
+    "@ethereumjs/tx": "^4.0.2",
     "@openzeppelin/contracts": "^4.8.1",
     "dotenv": "^16.0.3"
   }
