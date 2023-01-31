@@ -1,6 +1,5 @@
-import { ethers, Wallet } from "ethers";
+import { ethers } from "ethers";
 import { MyEpicGame__factory, MyEpicGame } from "../typechain-types";
-import env from "../envConfig";
 
 const GameContractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
 const rpcUrl = "http://127.0.0.1:8545/";

@@ -5,7 +5,7 @@ import env from "./envConfig";
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
   etherscan: {
-    apiKey: env.etherScan
+    apiKey: env.etherScan,
   },
   networks: {
     goerli: {
@@ -13,8 +13,8 @@ const config: HardhatUserConfig = {
       accounts: [env.goerliPrivateKey],
     },
     localhost: {
-      accounts: [env.privateKey]
-    }
+      accounts: [env.privateKey],
+    },
   },
-}
+};
 export default config;

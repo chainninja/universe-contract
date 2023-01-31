@@ -12,8 +12,10 @@ async function main() {
 
   await lock.deployed();
 
-  console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
-//0xF2b64d776723b181A5EE92d3064bd021F935dC70
+  console.log(
+    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
+  );
+  //0xF2b64d776723b181A5EE92d3064bd021F935dC70
 }
 
 // We recommend this pattern to be able to use async/await everywhere
