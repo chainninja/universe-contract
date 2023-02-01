@@ -46,4 +46,9 @@ npx hardhat verify --network goerli 0x3a1a9231656f4818ddd1c13518b752ccbff8e95B
 ```shell
 npx hardhat run scripts/deployVerifySignature.ts --network localhost
 npx ts-node client/signatureVerification.ts
+``` 
+
+```shell
+npx hardhat compile
+npx hardhat test
 ```
