@@ -58,4 +58,4 @@ npx hardhat test
 ```shell
 npx hardhat run scripts/deployEIP712Mail.ts --network localhost
 npx ts-node client/eip712Signature.ts
-``` 
+```

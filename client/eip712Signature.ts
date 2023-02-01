@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import env from "../envConfig";
-import { abi as EIP712MailAbi } from "../artifacts/contracts/wallet/EIP712Mail.sol/EIP712Mail.json";
+import { abi as EIP712MailAbi } from "../artifacts/contracts/wallet/sign/EIP712Mail.sol/EIP712Mail.json";
 import { EIP712Mail } from "../typechain-types";
 
 // Local:

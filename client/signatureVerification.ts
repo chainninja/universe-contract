@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import env from "../envConfig";
-import { abi as VerifySignatureAbi } from "../artifacts/contracts/wallet/VerifySignature.sol/VerifySignature.json";
+import { abi as VerifySignatureAbi } from "../artifacts/contracts/wallet/sign/VerifySignature.sol/VerifySignature.json";
 import { VerifySignature } from "../typechain-types";
 
 // Local:
