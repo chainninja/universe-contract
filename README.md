@@ -38,3 +38,12 @@ npx hardhat run scripts/deployGame.ts --network localhost
 npx hardhat run scripts/deployGame.ts --network goerli
 npx hardhat verify --network goerli 0x3a1a9231656f4818ddd1c13518b752ccbff8e95B
 ```
+
+##### Signature Verification
+
+1. Verify A Ether Signed Message
+
+```shell
+npx hardhat run scripts/deployVerifySignature.ts --network localhost
+npx ts-node client/signatureVerification.ts
+```
