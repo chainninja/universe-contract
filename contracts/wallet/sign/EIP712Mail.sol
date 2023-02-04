@@ -51,4 +51,3 @@ contract EIP712Mail {
         return verifyAddress == signer;
     }
 }
-

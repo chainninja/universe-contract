@@ -4,12 +4,11 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 contract SigTest {
-
     using ECDSA for bytes32;
 
     address private systemAddress;
 
-    constructor (address _systemAddress) {
+    constructor(address _systemAddress) {
         systemAddress = _systemAddress;
     }
 
@@ -22,9 +21,6 @@ contract SigTest {
         // Build the hash and check the sig
         // We only accept sigs from the system
         bytes32 msgHash = keccak256(abi.encodePacked(msg.sender, timestamp));
-        require(
-            isValidSignature(msgHash, signature),          
-            "Invalid signature"
-        );
+        require(isValidSignature(msgHash, signature), "Invalid signature");
     }
 }
