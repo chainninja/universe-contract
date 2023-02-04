@@ -64,3 +64,11 @@ npx ts-node client/eip712Signature.ts
 ```shell
 npx hardhat run scripts/deployCaller.ts --network localhost
 ```
+
+##### Deploy with Create2
+
+```shell
+npx hardhat run scripts/deployFactory.ts --network localhost 
+# 0x95401dc811bb5740090279Ba06cfA8fcF6113778
+npx hardhat run scripts/deployGameWithCreate2.ts --network localhost 
+```
