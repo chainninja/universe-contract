@@ -55,10 +55,7 @@ contract TestWallet is IERC721Receiver {
         contractOwner = _signer;
     }
 
-    function isValidSignature(
-        bytes32 _data,
-        bytes memory _signature
-    ) internal view returns (bool isValid) {
+    function isValidSignature(bytes32 _data, bytes memory _signature) internal view returns (bool isValid) {
         // Validate signatures
         bytes32 signedHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _data));
         return signedHash.recover(_signature) == contractOwner;
@@ -70,6 +67,21 @@ contract TestWallet is IERC721Receiver {
 
     function signer() public view returns (address) {
         return signerNonce.signer;
+    }
+
+    /**
+     * @notice Only entry point to excute an. The method will execute any transaction provided that it
+     * receieved enough signatures from the wallet owners.
+     * @param _to The destination address for the transaction to execute.
+     * @param _value The value parameter for the transaction to execute.
+     * @param _data The data parameter for the transaction to execute.
+     * @param signature Concatenated signatures ordered based on increasing signer's address.
+     */
+    function execute(address _to, uint _value, bytes memory _data, bytes memory signature) public returns (bool success) {
+        bytes32 msgHash = keccak256(abi.encodePacked(_to, _value, _data));
+        require(isValidSignature(msgHash, signature), "Invalid signature");
+        (bool _success,) = _to.call{value: _value}(_data);
+        return _success;
     }
 
     function getBigBoss() external view returns (BigBoss memory) {
