@@ -40,7 +40,7 @@ struct SignerNonce {
     address signer;
 }
 
-contract TestWallet is IERC721Receiver {
+contract SimpleWallet is IERC721Receiver {
     using ECDSA for bytes32;
 
     // owner of this contract
@@ -95,7 +95,7 @@ contract TestWallet is IERC721Receiver {
     }
 
     function withdrawAll(address payable _to) public {
-        require(TestWallet.contractOwner == _to);
+        require(SimpleWallet.contractOwner == _to);
         _to.transfer(address(this).balance);
     }
 

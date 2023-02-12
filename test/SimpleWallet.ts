@@ -1,10 +1,10 @@
 import { ethers } from "hardhat";
-import { TestWallet, MyEpicGame } from "../typechain-types";
+import { SimpleWallet, MyEpicGame } from "../typechain-types";
 import { expect } from "chai";
 
-describe("TestWallet", async () => {
+describe("SimpleWallet", async () => {
   const [deployer, walletOwner, nobody] = await ethers.getSigners();
-  let testWallet: TestWallet;
+  let testWallet: SimpleWallet;
   let epicGame: MyEpicGame;
   beforeEach(async () => {
     // Get eth signers
@@ -15,7 +15,7 @@ describe("TestWallet", async () => {
     );
 
     const testWalletFactory = await ethers.getContractFactory(
-      "TestWallet",
+      "SimpleWallet",
       deployer
     );
 
@@ -25,7 +25,7 @@ describe("TestWallet", async () => {
     testWallet = (await testWalletFactory.deploy(
       walletOwner.address,
       epicGame.address
-    )) as TestWallet;
+    )) as SimpleWallet;
     await testWallet.deployed();
   });
 
