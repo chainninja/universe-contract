@@ -46,7 +46,7 @@ contract EIP712Mail {
         console.logBytes32(digest);
 
         address verifyAddress = ecrecover(digest, v, r, s);
-        console.log("verified aDDRESS %S", verifyAddress);
+        console.log("verified Address %S", verifyAddress);
 
         return verifyAddress == signer;
     }
