@@ -3,6 +3,7 @@ pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "hardhat/console.sol";
 
 struct CharacterAttributes {
     uint characterIndex;
@@ -58,7 +59,7 @@ contract SimpleWallet is IERC721Receiver {
     function isValidSignature(bytes32 _data, bytes memory _signature) internal view returns (bool isValid) {
         // Validate signatures
         bytes32 signedHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _data));
-        return signedHash.recover(_signature) == contractOwner;
+        return signedHash.recover(_signature) == signer();
     }
 
     function nonce() public view returns (uint) {
@@ -78,8 +79,10 @@ contract SimpleWallet is IERC721Receiver {
      * @param signature Concatenated signatures ordered based on increasing signer's address.
      */
     function execute(address _to, uint _value, bytes memory _data, bytes memory signature) public returns (bool success) {
-        bytes32 msgHash = keccak256(abi.encodePacked(_to, _value, _data));
+        console.log("Nonce before execute: %s ", signerNonce.nonce);
+        bytes32 msgHash = keccak256(abi.encodePacked(_to, _value, _data, nonce()));
         require(isValidSignature(msgHash, signature), "Invalid signature");
+        signerNonce.nonce += 1;
         (bool _success,) = _to.call{value: _value}(_data);
         return _success;
     }
