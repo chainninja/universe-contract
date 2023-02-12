@@ -13,7 +13,6 @@ describe("SigTest", () => {
       "SigTest",
       signers[0]
     );
-
     // DEPLOY
     sigTest = (await counterFactory.deploy(signers[0].address)) as SigTest;
     await sigTest.deployed();
