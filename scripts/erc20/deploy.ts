@@ -2,8 +2,12 @@ import { BigNumber } from "ethers";
 import { ethers } from "hardhat";
 
 async function main() {
+  // Local:
+  const SimpleContractAddress = "0x68B1D87F95878fE05B998F19b66F4baba5De1aed";
+  // Goerli:
+  // const SimpleContractAddress = "0x1f65d92Ef6C63734b5411fbECD99FEF5FFe18B2A";
+
   const NinjaTokenFactory = await ethers.getContractFactory("NinjaToken");
-  const SimpleContractAddress = "0x6C1E65eE12fdeD086bD30535cc4c231B49922d49";
 
   // When dealing with cryptocurrencies you may want to be able to send arbitrary amounts,
   // like 0.004ETH. Unfortunately, Solidity and the Ethereum Virtual Machine do not support decimals:

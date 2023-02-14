@@ -75,10 +75,10 @@ npx hardhat run scripts/deployGameWithCreate2.ts --network localhost
 
 ### SimpleWallet
 
-[Deployed Contract](https://goerli.etherscan.io/address/0x6C1E65eE12fdeD086bD30535cc4c231B49922d49#readContract) 
+[Deployed Contract](https://goerli.etherscan.io/address/0x1f65d92Ef6C63734b5411fbECD99FEF5FFe18B2A#readContract) 
 
 
 ```
-npx hardhat verify --network goerli 0x6C1E65eE12fdeD086bD30535cc4c231B49922d49 0xe612ef637130daab4284da3d70f89d3b883ed60f 0x3a1a9231656f4818ddd1c13518b752ccbff8e95B
+npx hardhat verify --network goerli 0x1f65d92Ef6C63734b5411fbECD99FEF5FFe18B2A 0xe612ef637130daab4284da3d70f89d3b883ed60f 0x3a1a9231656f4818ddd1c13518b752ccbff8e95B
 npx ts-node client/simpleWalletManager.ts
 ```
