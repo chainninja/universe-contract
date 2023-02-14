@@ -1,16 +1,13 @@
 import { ethers } from "hardhat";
-
+import { config } from "../config";
 async function main() {
-  //Local
-  // const GameContractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-  // Goerli:
-  const GameContractAddress = "0x3a1a9231656f4818ddd1c13518b752ccbff8e95B";
+  const { gameContractAddress } = config.goerli;
 
   const managerContractFactory = await ethers.getContractFactory(
     "EpicGameManager"
   );
   const managerContract = await managerContractFactory.deploy(
-    GameContractAddress
+    gameContractAddress
   );
 
   await managerContract.deployed();

@@ -1,20 +1,12 @@
 import { ethers, Wallet } from "ethers";
 import { MyEpicGame } from "../typechain-types";
-import env from "../envConfig";
 import { abi as EpicGameAbi } from "../artifacts/contracts/games/MyEpicGame.sol/MyEpicGame.json";
 import { Transaction } from "@ethereumjs/tx";
 import { Buffer } from "buffer";
 import { Chain, Common, Hardfork } from "@ethereumjs/common";
+import { config } from "../config";
 
-// Local:
-// const GameContractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
-// const rpcUrl = "http://127.0.0.1:8545/";
-// const privateKey = env.privateKey;
-
-// Goerli:
-const GameContractAddress = "0x3a1a9231656f4818ddd1c13518b752ccbff8e95B";
-const rpcUrl = "https://goerli.infura.io/v3/2e4149067ccd4116ab0ff144487e3b89";
-const privateKey = env.goerliPrivateKey;
+const { gameContractAddress, rpcUrl, privateKey } = config.goerli;
 
 const gasPrice = 20e10;
 const gasLimit = 300000;
@@ -36,7 +28,7 @@ const main = async () => {
   console.log({ wallet: wallet.address });
 
   const gameContract = new ethers.Contract(
-    GameContractAddress,
+    gameContractAddress,
     EpicGameAbi,
     provider
   ) as MyEpicGame;
