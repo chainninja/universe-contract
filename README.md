@@ -21,7 +21,7 @@ npx hardhat run scripts/deployLock.ts --network goerli
 npx hardhat verify --network goerli 0xF2b64d776723b181A5EE92d3064bd021F935dC70 1706505759
 ```
 
-### Epic Game
+### Epic Game(ERC721)
 
 ##### Deploy to Local
 ```shell
@@ -29,6 +29,10 @@ npx hardhat node
 npx hardhat run scripts/deployGame.ts --network localhost
 ```
 
+### NinjaToken(ERC20)
+```
+npx hardhat run scripts/erc20/deploy.ts --network goerli
+```
 
 ##### Deploy and Verify epicGame
 
