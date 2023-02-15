@@ -1,11 +1,8 @@
 import { BigNumber } from "ethers";
 import { ethers } from "hardhat";
-
+import { config } from "../../config";
 async function main() {
-  // Local:
-  const SimpleContractAddress = "0x68B1D87F95878fE05B998F19b66F4baba5De1aed";
-  // Goerli:
-  // const SimpleContractAddress = "0x1f65d92Ef6C63734b5411fbECD99FEF5FFe18B2A";
+  const { simpleWalletContractAddress } = config.goerli;
 
   const NinjaTokenFactory = await ethers.getContractFactory("NinjaToken");
 
@@ -34,7 +31,7 @@ async function main() {
 
   console.log(`Deployed to ${NinjaToken.address}`);
   await NinjaToken.transfer(
-    SimpleContractAddress,
+    simpleWalletContractAddress,
     BigNumber.from(TenTokens.toString())
   );
   // https://goerli.etherscan.io/address/0x4852396e5476dc546d94f9389e9eb9c276e93d06

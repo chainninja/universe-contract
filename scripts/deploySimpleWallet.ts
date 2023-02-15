@@ -1,18 +1,26 @@
+import { Wallet } from "ethers";
 import { ethers } from "hardhat";
-import env from "../envConfig";
+import { config } from "../config";
+
+const sendEther = async (toAddress: string, wallet: Wallet) => {
+  const rpcUrl = "https://goerli.infura.io/v3/2e4149067ccd4116ab0ff144487e3b89";
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+  const account = wallet.connect(provider);
+
+  const gasPrice = 20e10;
+  const gasLimit = 300000;
+  const tx = {
+    to: toAddress,
+    gasLimit: "0x" + gasLimit.toString(16),
+    gasPrice: "0x" + gasPrice.toString(16),
+    value: ethers.utils.parseEther("0.01"),
+  };
+  const transaction = await account.sendTransaction(tx);
+  console.log("sendEther", { transaction });
+};
 
 async function main() {
-  //Local
-  // const GameContractAddress = "0x68B1D87F95878fE05B998F19b66F4baba5De1aed";
-  // const SimpleContractAddress = "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44";
-
-  // const privateKey = env.privateKey;
-
-  // Goerli:
-  const GameContractAddress = "0x3a1a9231656f4818ddd1c13518b752ccbff8e95B";
-
-  // const SimpleContractAddress = "0x6C1E65eE12fdeD086bD30535cc4c231B49922d49";
-  const privateKey = env.goerliPrivateKey;
+  const { gameContractAddress, privateKey } = config.localhost;
 
   const wallet = new ethers.Wallet(privateKey);
 
@@ -20,24 +28,25 @@ async function main() {
     "SimpleWallet"
   );
 
-  const managerContract = await simpleWalletContractFactory.deploy(
+  const walletContract = await simpleWalletContractFactory.deploy(
     wallet.address,
-    GameContractAddress
+    gameContractAddress
   );
 
-  await managerContract.deployed();
-  console.log("Contract Deployed to:", managerContract.address);
+  await walletContract.deployed();
+  console.log("Contract Deployed to:", walletContract.address);
 
   // const [user] = await ethers.getSigners();
   // const userBalance = await user.getBalance();
   // const address = await user.getAddress();
   // console.log({ userBalance, address });
-  // managerContract.sendMoneyToContract({
+  // walletContract.sendMoneyToContract({
   //   value: ethers.utils.parseEther("1"),
   // });
 
-  const txn = await managerContract.getBigBoss();
+  const txn = await walletContract.getBigBoss();
   console.log("Txn:", { txn });
+  // await sendEther(walletContract.address, wallet);
 
   // const mintNFTs = await managerContract.mintNFTs();
   // mintNFTs.wait();

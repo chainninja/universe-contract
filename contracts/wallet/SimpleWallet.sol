@@ -56,6 +56,16 @@ contract SimpleWallet is IERC721Receiver {
         contractOwner = _signer;
     }
 
+    modifier onlyOwner() {
+        _onlyOwner();
+        _;
+    }
+
+    function _onlyOwner() internal view {
+        //directly from EOA owner, or through the entryPoint (which gets redirected through execFromEntryPoint)
+        require(msg.sender == signerNonce.signer || msg.sender == address(this), "only owner");
+    }
+
     function isValidSignature(bytes32 _data, bytes memory _signature) internal view returns (bool isValid) {
         // Validate signatures
         bytes32 signedHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _data));
@@ -78,13 +88,33 @@ contract SimpleWallet is IERC721Receiver {
      * @param _data The data parameter for the transaction to execute.
      * @param signature Concatenated signatures ordered based on increasing signer's address.
      */
-    function execute(address _to, uint _value, bytes memory _data, bytes memory signature) public returns (bool success) {
+    function execute(
+        address _to,
+        uint _value,
+        bytes memory _data,
+        bytes memory signature
+    ) public returns (bool success) {
         console.log("Nonce before execute: %s ", signerNonce.nonce);
         bytes32 msgHash = keccak256(abi.encodePacked(_to, _value, _data, nonce()));
         require(isValidSignature(msgHash, signature), "Invalid signature");
         signerNonce.nonce += 1;
-        (bool _success,) = _to.call{value: _value}(_data);
+        (bool _success,) = _to.call{value: _value, gas: gasleft()}(_data);
         return _success;
+    }
+
+    // https://solidity-by-example.org/sending-ether/
+    // Function to receive Ether. msg.data must be empty
+    receive() external payable {}
+
+    // Fallback function is called when msg.data is not empty
+    fallback() external payable {}
+
+    function getBalance() public view returns (uint) {
+        return address(this).balance;
+    }
+
+    function transfer(address payable dest, uint amount) external onlyOwner {
+        dest.transfer(amount);
     }
 
     function getBigBoss() external view returns (BigBoss memory) {
@@ -92,10 +122,6 @@ contract SimpleWallet is IERC721Receiver {
     }
 
     function sendMoneyToContract() public payable {}
-
-    function getBalance() public view returns (uint) {
-        return address(this).balance;
-    }
 
     function withdrawAll(address payable _to) public {
         require(SimpleWallet.contractOwner == _to);
