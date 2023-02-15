@@ -43,12 +43,15 @@ struct SignerNonce {
 
 contract SimpleWallet is IERC721Receiver {
     using ECDSA for bytes32;
-
     // owner of this contract
     address public contractOwner;
-
     EpicGame public eGame;
     SignerNonce public signerNonce;
+
+    event Received(address caller, uint amount, string message);
+    event Transfered(address receiver, uint amount);
+    event WithdrawedAll(address receiver, uint amount);
+    event NTFMinted(uint _characterIndex);
 
     constructor(address _signer, address gameAddress) {
         signerNonce.signer = _signer;
@@ -98,16 +101,20 @@ contract SimpleWallet is IERC721Receiver {
         bytes32 msgHash = keccak256(abi.encodePacked(_to, _value, _data, nonce()));
         require(isValidSignature(msgHash, signature), "Invalid signature");
         signerNonce.nonce += 1;
-        (bool _success,) = _to.call{value: _value, gas: gasleft()}(_data);
+        (bool _success, ) = _to.call{value: _value, gas: gasleft()}(_data);
         return _success;
     }
 
     // https://solidity-by-example.org/sending-ether/
     // Function to receive Ether. msg.data must be empty
-    receive() external payable {}
+    receive() external payable {
+        emit Received(msg.sender, msg.value, "Received was called");
+    }
 
     // Fallback function is called when msg.data is not empty
-    fallback() external payable {}
+    fallback() external payable {
+        emit Received(msg.sender, msg.value, "Fallback was called");
+    }
 
     function getBalance() public view returns (uint) {
         return address(this).balance;
@@ -115,6 +122,7 @@ contract SimpleWallet is IERC721Receiver {
 
     function transfer(address payable dest, uint amount) external onlyOwner {
         dest.transfer(amount);
+        emit Transfered(dest, amount);
     }
 
     function getBigBoss() external view returns (BigBoss memory) {
@@ -125,7 +133,9 @@ contract SimpleWallet is IERC721Receiver {
 
     function withdrawAll(address payable _to) public {
         require(SimpleWallet.contractOwner == _to);
-        _to.transfer(address(this).balance);
+        uint amount = address(this).balance;
+        _to.transfer(amount);
+        emit WithdrawedAll(_to, amount);
     }
 
     function mintNFTs(uint _characterIndex, bytes memory signature) external {
@@ -133,6 +143,7 @@ contract SimpleWallet is IERC721Receiver {
         require(isValidSignature(msgHash, signature), "Invalid signature");
         eGame.mintCharacterNFT(_characterIndex);
         eGame.mintCharacterNFT(_characterIndex);
+        emit NTFMinted(_characterIndex);
     }
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {

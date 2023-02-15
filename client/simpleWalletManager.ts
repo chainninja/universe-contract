@@ -172,7 +172,7 @@ const mintNFT = async () => {
 //   // return await wallet.signMessage(messageHashBinary);
 // };
 
-const sendEth = async (price: number) => {
+const depositEth = async (price: number) => {
   const tx = {
     to: simpleWalletContractAddress,
     gasLimit: "0x" + gasLimit.toString(16),
@@ -182,18 +182,20 @@ const sendEth = async (price: number) => {
   await account.sendTransaction(tx);
 };
 
-const receiveEth = async (price: number) => {
-  await walletContract.transfer(
-    "0xf419B5a6a3DfBf3d3a6bEEFff331be38EE464080",
-    ethers.utils.parseEther(price.toString())
-  );
+const sendEthTo = async (to: string, price: number) => {
+  await walletContract.transfer(to, ethers.utils.parseEther(price.toString()));
+};
+
+const withdrawAllEth = async () => {
+  await walletContract.withdrawAll(wallet.address);
 };
 
 const main = async () => {
   // // await getViewFunctions();
   try {
-    await sendEth(0.01);
-    await receiveEth(0.005);
+    await depositEth(0.01);
+    await sendEthTo(wallet.address, 0.005);
+    // await withdrawAllEth();
     // await mintNFT();
     // // await execute();
     // // await mintNftViaCall();
