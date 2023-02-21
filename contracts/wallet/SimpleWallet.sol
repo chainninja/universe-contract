@@ -97,11 +97,12 @@ contract SimpleWallet is IERC721Receiver {
         bytes memory _data,
         bytes memory signature
     ) public returns (bool success) {
-        console.log("Nonce before execute: %s ", signerNonce.nonce);
+        console.log("Nonce before execute: %s", signerNonce.nonce);
         bytes32 msgHash = keccak256(abi.encodePacked(_to, _value, _data, nonce()));
         require(isValidSignature(msgHash, signature), "Invalid signature");
         signerNonce.nonce += 1;
-        (bool _success, ) = _to.call{value: _value, gas: gasleft()}(_data);
+        (bool _success, ) = _to.call{value: _value, gas: 2100000}(_data);
+        require(_success, "execute call failed");
         return _success;
     }
 

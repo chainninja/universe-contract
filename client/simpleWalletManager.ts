@@ -1,5 +1,5 @@
 import { ethers, Wallet, BigNumber } from "ethers";
-import { SimpleWallet } from "../typechain-types";
+import { SimpleWallet, MyEpicGame } from "../typechain-types";
 import { abi as SimpleWalletAbi } from "../artifacts/contracts/wallet/SimpleWallet.sol/SimpleWallet.json";
 import { abi as MyEpicGameAbi } from "../artifacts/contracts/games/MyEpicGame.sol/MyEpicGame.json";
 import { abi as ERC20Abi } from "../artifacts/contracts/erc20/ERC20.sol/ERC20.json";
@@ -25,11 +25,12 @@ const walletContract = new ethers.Contract(
   SimpleWalletAbi,
   account
 ) as SimpleWallet;
+
 const epicGameContract = new ethers.Contract(
   gameContractAddress,
   MyEpicGameAbi,
   account
-);
+) as MyEpicGame;
 
 const ninjaTokenContract = new ethers.Contract(
   ninjaTokenContractAddress,
@@ -101,14 +102,20 @@ const mintNftViaCall = async () => {
   );
   console.log({ gasLimit });
 
+  // const returns = await walletContract.execute(
+  //   epicGameContract.address,
+  //   0,
+  //   data,
+  //   signature,
+  //   {
+  //     gasLimit: gasEstimated.mul(130).div(100),
+  //   }
+  // );
   const returns = await walletContract.execute(
     epicGameContract.address,
     0,
     data,
-    signature,
-    {
-      gasLimit: gasEstimated.mul(130).div(100),
-    }
+    signature
   );
   console.log({ returns });
 };
@@ -129,13 +136,13 @@ const erc20Transfer = async () => {
   // type "address", "string"， “bytes”， "bool":
   const messageHash = ethers.utils.solidityKeccak256(
     ["address", "uint", "bytes", "uint"],
-    [epicGameContract.address, value, data, nonce1]
+    [ninjaTokenContract.address, value, data, nonce1]
   );
   // STEP 2: 32 bytes of data in Uint8Array
   const messageHashBinary = ethers.utils.arrayify(messageHash);
   // STEP 3: To sign the 32 bytes of data, make sure you pass in the data
   const signature = await wallet.signMessage(messageHashBinary);
-  await walletContract.execute(epicGameContract.address, 0, data, signature);
+  await walletContract.execute(ninjaTokenContract.address, 0, data, signature);
 };
 
 const mintNFT = async () => {
@@ -193,12 +200,12 @@ const withdrawAllEth = async () => {
 const main = async () => {
   // // await getViewFunctions();
   try {
-    await depositEth(0.01);
-    await sendEthTo(wallet.address, 0.005);
+    // await depositEth(0.01);
+    // await sendEthTo(wallet.address, 0.005);
     // await withdrawAllEth();
     // await mintNFT();
-    // // await execute();
-    // // await mintNftViaCall();
+    // await execute();
+    await mintNftViaCall();
     // await erc20Transfer();
     const ether = await account.getBalance();
     console.log({ ether });

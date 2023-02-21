@@ -4,6 +4,7 @@
 pragma solidity ^0.8.0;
 
 import "./IERC20.sol";
+import "hardhat/console.sol";
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -109,7 +110,10 @@ contract ERC20 is IERC20 {
      * - the caller must have a balance of at least `amount`.
      */
     function transfer(address to, uint256 amount) public virtual override returns (bool) {
+        console.log("Transfer: %s", to);
+
         address owner = _msgSender();
+        console.log("Transfer owner: %s", owner);
         _transfer(owner, to, amount);
         return true;
     }
@@ -224,6 +228,9 @@ contract ERC20 is IERC20 {
         _beforeTokenTransfer(from, to, amount);
 
         uint256 fromBalance = _balances[from];
+        console.log("_transfer _balances from %s", fromBalance);
+        console.log("_transfer amount %s", amount);
+
         require(fromBalance >= amount, "ERC20: transfer amount exceeds balance");
         unchecked {
             _balances[from] = fromBalance - amount;
@@ -231,6 +238,11 @@ contract ERC20 is IERC20 {
             // decrementing then incrementing.
             _balances[to] += amount;
         }
+        uint256 afterFromBalance = _balances[from];
+        uint256 afterToBalance = _balances[from];
+
+        console.log("_transfer after _balances from %s", afterFromBalance);
+        console.log("_transfer after  to _balances from %s", afterToBalance);
 
         emit Transfer(from, to, amount);
 

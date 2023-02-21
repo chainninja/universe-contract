@@ -93,7 +93,9 @@ contract MyEpicGame is ERC721 {
     // characterId they send in!
     function mintCharacterNFT(uint _characterIndex) external {
         // Get current tokenId (starts at 1 since we incremented in the constructor).
+        console.log("mintCharacterNFT  %s", _characterIndex );
         uint256 newItemId = _tokenIds.current();
+        console.log("mintCharacterNFT newItemId %s", newItemId );
 
         // The magical function! Assigns the tokenId to the caller's wallet address.
         _safeMint(msg.sender, newItemId);
