@@ -11,8 +11,8 @@ export const config = {
   goerli: {
     rpcUrl: "https://goerli.infura.io/v3/2e4149067ccd4116ab0ff144487e3b89",
     privateKey: env.goerliPrivateKey,
-    gameContractAddress: "0x3a1a9231656f4818ddd1c13518b752ccbff8e95B",
-    ninjaTokenContractAddress: "0x9557D0cE0C413EC4F1254e37Fe233989CeD2a86c",
-    simpleWalletContractAddress: "0x1aC093e6Cb2D90d5db7683CC959104D2b29F9898",
+    gameContractAddress: "0x48cb138B32A8D87FE8DE67c87657739021814660",
+    ninjaTokenContractAddress: "0xe8996cA6F74E802C57fEB88E84b610CaEF03b691",
+    simpleWalletContractAddress: "0x9941ddB9577f025B7EA536B703de4D3143e9BA6E",
   },
 };

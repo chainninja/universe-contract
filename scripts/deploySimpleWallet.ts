@@ -13,14 +13,14 @@ const sendEther = async (toAddress: string, wallet: Wallet) => {
     to: toAddress,
     gasLimit: "0x" + gasLimit.toString(16),
     gasPrice: "0x" + gasPrice.toString(16),
-    value: ethers.utils.parseEther("0.01"),
+    value: ethers.utils.parseEther("0.1"),
   };
   const transaction = await account.sendTransaction(tx);
   console.log("sendEther", { transaction });
 };
 
 async function main() {
-  const { gameContractAddress, privateKey } = config.localhost;
+  const { gameContractAddress, privateKey } = config.goerli;
 
   const wallet = new ethers.Wallet(privateKey);
 
@@ -46,7 +46,7 @@ async function main() {
 
   const txn = await walletContract.getBigBoss();
   console.log("Txn:", { txn });
-  // await sendEther(walletContract.address, wallet);
+  await sendEther(walletContract.address, wallet);
 
   // const mintNFTs = await managerContract.mintNFTs();
   // mintNFTs.wait();

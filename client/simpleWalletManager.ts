@@ -100,23 +100,23 @@ const mintNftViaCall = async () => {
     data,
     signature
   );
-  console.log({ gasLimit });
+  console.log({ nonce1, gasEstimated });
 
-  // const returns = await walletContract.execute(
-  //   epicGameContract.address,
-  //   0,
-  //   data,
-  //   signature,
-  //   {
-  //     gasLimit: gasEstimated.mul(130).div(100),
-  //   }
-  // );
   const returns = await walletContract.execute(
     epicGameContract.address,
     0,
     data,
-    signature
+    signature,
+    {
+      gasLimit: gasEstimated.mul(130).div(100),
+    }
   );
+  // const returns = await walletContract.execute(
+  //   epicGameContract.address,
+  //   0,
+  //   data,
+  //   signature
+  // );
   console.log({ returns });
 };
 

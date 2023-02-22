@@ -34,7 +34,6 @@ async function main() {
     simpleWalletContractAddress,
     BigNumber.from(TenTokens.toString())
   );
-  // https://goerli.etherscan.io/address/0x4852396e5476dc546d94f9389e9eb9c276e93d06
 }
 
 // We recommend this pattern to be able to use async/await everywhere
